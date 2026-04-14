@@ -51,29 +51,30 @@ const save = () => {
   <v-dialog :model-value="modelValue" @update:model-value="close" max-width="700px" persistent>
     <v-card rounded="3xl" class="overflow-hidden elevation-24">
       <!-- Header -->
-      <div class="bg-primary pa-8 text-white relative">
+      <div class="bg-primary pa-8 text-white relative rtl">
         <div class="flex justify-between items-start">
           <div>
             <h2 class="text-3xl font-black mb-1">ثبت نوبت جدید</h2>
             <p class="text-white/80 text-sm font-light">برنامه‌ریزی دقیق جلسات درمانی کلینیک</p>
           </div>
           <v-btn
-            icon="mdi-close"
             variant="tonal"
             color="white"
             size="small"
             class="rounded-xl"
             @click="close"
-          ></v-btn>
+          >
+            <i class="fas fa-times"></i>
+          </v-btn>
         </div>
       </div>
 
-      <v-card-text class="pa-10 space-y-8">
+      <v-card-text class="pa-10 space-y-8 rtl">
         <!-- Patient Selection -->
         <div class="flex items-end gap-4">
           <div class="flex-1 space-y-3">
             <label class="block text-sm font-bold text-primary px-1 flex items-center gap-2">
-              <v-icon icon="mdi-account-outline" size="18"></v-icon>
+              <i class="fas fa-user-injured text-[16px]"></i>
               انتخاب مراجع
             </label>
             <v-select
@@ -91,10 +92,11 @@ const save = () => {
             color="secondary"
             rounded="xl"
             size="large"
-            icon="mdi-plus"
             elevation="4"
             class="mb-1"
-          ></v-btn>
+          >
+            <i class="fas fa-plus"></i>
+          </v-btn>
         </div>
 
         <v-row>
@@ -102,7 +104,7 @@ const save = () => {
           <v-col cols="12" md="6">
             <div class="space-y-3">
               <label class="block text-sm font-bold text-primary px-1 flex items-center gap-2">
-                <v-icon icon="mdi-doctor" size="18"></v-icon>
+                <i class="fas fa-user-md text-[16px]"></i>
                 انتخاب درمانگر
               </label>
               <v-select
@@ -121,7 +123,7 @@ const save = () => {
           <v-col cols="12" md="6">
             <div class="space-y-3">
               <label class="block text-sm font-bold text-primary px-1 flex items-center gap-2">
-                <v-icon icon="mdi-door-open" size="18"></v-icon>
+                <i class="fas fa-door-open text-[16px]"></i>
                 انتخاب اتاق
               </label>
               <v-select
@@ -142,7 +144,7 @@ const save = () => {
           <v-col cols="12" md="4">
             <div class="space-y-3">
               <label class="block text-sm font-bold text-primary px-1 flex items-center gap-2">
-                <v-icon icon="mdi-calendar-range" size="18"></v-icon>
+                <i class="fas fa-calendar-alt text-[16px]"></i>
                 تاریخ نوبت
               </label>
               <div class="relative">
@@ -155,8 +157,11 @@ const save = () => {
                   hide-details
                   readonly
                   class="professional-input"
-                  prepend-inner-icon="mdi-calendar"
-                ></v-text-field>
+                >
+                  <template v-slot:prepend-inner>
+                    <i class="fas fa-calendar text-gray-400"></i>
+                  </template>
+                </v-text-field>
                 <date-picker
                   v-model="form.date"
                   element="date-picker-trigger"
@@ -172,7 +177,7 @@ const save = () => {
           <v-col cols="12" md="4">
             <div class="space-y-3">
               <label class="block text-sm font-bold text-primary px-1 flex items-center gap-2">
-                <v-icon icon="mdi-clock-outline" size="18"></v-icon>
+                <i class="fas fa-clock text-[16px]"></i>
                 زمان نوبت
               </label>
               <div class="relative">
@@ -185,8 +190,11 @@ const save = () => {
                   hide-details
                   readonly
                   class="professional-input"
-                  prepend-inner-icon="mdi-clock"
-                ></v-text-field>
+                >
+                  <template v-slot:prepend-inner>
+                    <i class="fas fa-clock text-gray-400"></i>
+                  </template>
+                </v-text-field>
                 <date-picker
                   v-model="form.time"
                   element="time-picker-trigger"
@@ -201,7 +209,7 @@ const save = () => {
           <v-col cols="12" md="4">
             <div class="space-y-3">
               <label class="block text-sm font-bold text-primary px-1 flex items-center gap-2">
-                <v-icon icon="mdi-timer-outline" size="18"></v-icon>
+                <i class="fas fa-hourglass-half text-[16px]"></i>
                 مدت زمان
               </label>
               <v-select
@@ -244,9 +252,9 @@ const save = () => {
       </v-card-text>
 
       <!-- Footer Info -->
-      <div class="px-10 py-6 bg-secondary/5 flex items-center gap-4 border-t border-secondary/10">
+      <div class="px-10 py-6 bg-secondary/5 flex items-center gap-4 border-t border-secondary/10 rtl">
         <v-avatar color="secondary" size="32" class="elevation-2">
-          <v-icon icon="mdi-shield-check" color="white" size="18"></v-icon>
+          <i class="fas fa-shield-alt text-white text-sm"></i>
         </v-avatar>
         <p class="text-xs text-secondary font-medium leading-relaxed">
           سیستم هوشمند کلینیک به صورت خودکار تداخل‌های زمانی و ظرفیت اتاق‌ها را بررسی می‌کند.

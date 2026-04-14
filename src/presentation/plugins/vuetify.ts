@@ -2,7 +2,7 @@ import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
-import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
+import { aliases, fa } from 'vuetify/iconsets/fa';
 
 export default createVuetify({
   components,
@@ -26,10 +26,10 @@ export default createVuetify({
     },
   },
   icons: {
-    defaultSet: 'mdi',
+    defaultSet: 'fa',
     aliases,
     sets: {
-      mdi,
+      fa,
     },
   },
 });

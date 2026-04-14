@@ -12,16 +12,13 @@ const drawer = ref(true);
 const showNewAppointmentModal = ref(false);
 
 const menuItems = [
-  { title: 'داشبوردها', icon: 'mdi-view-grid-outline', children: [
-    { title: 'داشبورد اصلی', route: '/' },
-    { title: 'گزارشات', route: '/reports' },
-  ]},
+  { title: 'پیشخوان', icon: 'fas fa-th-large', route: '/' },
   { title: 'کاربر', section: true },
-  { title: 'پروفایل عمومی', icon: 'mdi-account-circle-outline', children: [
+  { title: 'پروفایل عمومی', icon: 'fas fa-user-circle', children: [
     { title: 'مشاهده پروفایل', route: '/profile' },
     { title: 'تنظیمات حریم خصوصی', route: '/privacy' },
   ]},
-  { title: 'حساب من', icon: 'mdi-cog-outline', children: [
+  { title: 'حساب من', icon: 'fas fa-user-cog', children: [
     { title: 'خانه حساب', children: [
       { title: 'شروع کار', route: '/start' },
       { title: 'پروفایل کاربر', route: '/user-profile' },
@@ -31,15 +28,15 @@ const menuItems = [
       { title: 'تنظیمات - ساده', route: '/settings-plain' },
       { title: 'تنظیمات - مودال', route: '/settings-modal' },
     ]},
-    { title: 'صورتحساب', route: '/billing' },
-    { title: 'امنیت', route: '/security' },
-    { title: 'اعضا و نقش‌ها', route: '/members' },
+    { title: 'صورتحساب', icon: 'fas fa-file-invoice-dollar', route: '/billing' },
+    { title: 'امنیت', icon: 'fas fa-shield-alt', route: '/security' },
+    { title: 'اعضا و نقش‌ها', icon: 'fas fa-users-cog', route: '/members' },
   ]},
-  { title: 'شبکه', icon: 'mdi-account-group-outline', children: [
+  { title: 'شبکه', icon: 'fas fa-network-wired', children: [
     { title: 'لیست مراجعین', route: '/patients' },
     { title: 'لیست درمانگران', route: '/therapists' },
   ]},
-  { title: 'احراز هویت', icon: 'mdi-shield-lock-outline', children: [
+  { title: 'احراز هویت', icon: 'fas fa-lock', children: [
     { title: 'ورود', route: '/login' },
     { title: 'فراموشی رمز', route: '/forgot' },
   ]},
@@ -57,13 +54,13 @@ const handleLogout = () => {
     location="right" 
     permanent 
     width="300"
-    class="border-l border-gray-100"
+    class="border-l border-gray-100 rtl"
   >
     <!-- Logo Section -->
     <div class="px-8 py-10 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-          <v-icon icon="mdi-psychology" color="white" size="22"></v-icon>
+          <i class="fas fa-brain text-white text-lg"></i>
         </div>
         <span class="text-xl font-black text-gray-800 tracking-tighter uppercase">Omid Baran</span>
       </div>
@@ -86,9 +83,11 @@ const handleLogout = () => {
           rounded="xl"
           elevation="0"
           class="font-bold py-7 text-md"
-          prepend-icon="mdi-plus"
           @click="showNewAppointmentModal = true"
         >
+          <template v-slot:prepend>
+            <i class="fas fa-plus-circle ml-2"></i>
+          </template>
           ثبت نوبت جدید
         </v-btn>
         <v-btn
@@ -96,19 +95,20 @@ const handleLogout = () => {
           color="gray"
           variant="text"
           class="text-gray-400 font-bold hover:text-red-500 transition-colors"
-          prepend-icon="mdi-logout"
           @click="handleLogout"
         >
+          <template v-slot:prepend>
+            <i class="fas fa-sign-out-alt ml-2"></i>
+          </template>
           خروج از سیستم
         </v-btn>
       </div>
     </template>
   </v-navigation-drawer>
 
-  <v-app-bar flat class="bg-white/80 backdrop-blur-md px-8 border-b border-gray-50 h-20">
+  <v-app-bar flat class="bg-white/80 backdrop-blur-md px-8 border-b border-gray-50 h-20 rtl">
     <div class="flex items-center gap-6 w-full">
       <v-text-field
-        prepend-inner-icon="mdi-magnify"
         placeholder="جستجو در کلینیک..."
         hide-details
         density="compact"
@@ -117,13 +117,21 @@ const handleLogout = () => {
         bg-color="gray-50"
         rounded="lg"
         class="max-w-md"
-      ></v-text-field>
+      >
+        <template v-slot:prepend-inner>
+          <i class="fas fa-search text-gray-400"></i>
+        </template>
+      </v-text-field>
       
       <v-spacer></v-spacer>
       
       <div class="flex items-center gap-4">
-        <v-btn icon="mdi-bell-outline" variant="text" color="gray-400" size="small"></v-btn>
-        <v-btn icon="mdi-apps" variant="text" color="gray-400" size="small"></v-btn>
+        <v-btn icon variant="text" color="gray-400" size="small">
+          <i class="far fa-bell"></i>
+        </v-btn>
+        <v-btn icon variant="text" color="gray-400" size="small">
+          <i class="fas fa-th"></i>
+        </v-btn>
         
         <v-divider vertical inset class="mx-4 h-8"></v-divider>
         

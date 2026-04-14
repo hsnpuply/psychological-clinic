@@ -27,34 +27,34 @@ const toggle = () => {
 </script>
 
 <template>
-  <div v-if="item.section" class="px-8 py-4 mt-4">
-    <span class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{{ item.title }}</span>
+  <div v-if="item.section" class="px-8 py-4 mt-6">
+    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]">{{ item.title }}</span>
   </div>
   
   <div v-else :class="['w-full', depth > 0 ? 'relative' : '']">
     <div
-      class="group flex items-center justify-between px-8 py-2.5 cursor-pointer transition-all duration-200 hover:bg-gray-50"
-      :class="{ 'bg-gray-50/50': isOpen && hasChildren }"
+      class="group flex items-center justify-between px-8 py-3.5 cursor-pointer transition-all duration-300 hover:bg-primary/5 rounded-lg mx-3 my-1"
+      :class="{ 'bg-primary/5': isOpen && hasChildren }"
       @click="toggle"
     >
-      <div class="flex items-center gap-3">
-        <!-- Icon (only for depth 0 or if explicitly provided) -->
-        <v-icon 
-          v-if="item.icon" 
-          :icon="item.icon" 
-          size="20" 
-          class="text-gray-400 group-hover:text-primary transition-colors"
-          :class="{ 'text-primary': isOpen && hasChildren }"
-        ></v-icon>
+      <div class="flex items-center gap-4">
+        <!-- FontAwesome Icon -->
+        <div v-if="item.icon" class="w-6 flex justify-center items-center">
+          <i 
+            :class="[item.icon, 'text-lg transition-colors duration-300', (isOpen && hasChildren) ? 'text-primary' : 'text-gray-400 group-hover:text-primary']"
+          ></i>
+        </div>
         
         <!-- Indent spacer for nested items -->
-        <div v-else-if="depth > 0" class="w-5"></div>
+        <div v-else-if="depth > 0" class="w-6 flex justify-center items-center">
+           <div class="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-primary transition-colors"></div>
+        </div>
 
         <!-- Title -->
         <span 
           :class="[
-            'text-[13px] transition-colors tracking-tight',
-            depth === 0 ? 'font-bold text-gray-700' : 'text-gray-500 font-medium',
+            'text-[14px] transition-colors duration-300 tracking-tight',
+            depth === 0 ? 'font-bold text-gray-700' : 'font-medium text-gray-500',
             'group-hover:text-primary',
             { 'text-primary': isOpen && hasChildren }
           ]"
@@ -63,21 +63,22 @@ const toggle = () => {
         </span>
       </div>
 
-      <!-- Arrow/Plus/Minus -->
-      <v-icon
-        v-if="hasChildren"
-        :icon="isOpen ? 'mdi-minus' : 'mdi-plus'"
-        size="14"
-        class="text-gray-300 group-hover:text-primary"
-        :class="{ 'text-primary': isOpen && hasChildren }"
-      ></v-icon>
+      <!-- Arrow/Plus/Minus (RTL: on the left) -->
+      <div v-if="hasChildren" class="flex items-center">
+        <i 
+          :class="[
+            'fas transition-all duration-300 text-[10px]',
+            isOpen ? 'fa-minus text-primary' : 'fa-plus text-gray-300 group-hover:text-primary'
+          ]"
+        ></i>
+      </div>
     </div>
 
-    <!-- Children -->
-    <div v-if="hasChildren && isOpen" class="w-full relative">
-      <!-- Vertical line for nested items -->
+    <!-- Children with hierarchy line -->
+    <div v-if="hasChildren && isOpen" class="w-full relative pr-4">
+      <!-- Vertical line for nested items (RTL: on the right) -->
       <div 
-        class="absolute right-[41px] top-0 bottom-0 w-[1px] bg-gray-100"
+        class="absolute right-[43px] top-0 bottom-0 w-[1.5px] bg-gray-100 rounded-full"
       ></div>
       
       <SidebarItem
@@ -91,8 +92,9 @@ const toggle = () => {
 </template>
 
 <style scoped>
-/* Ensure RTL consistency */
-.v-icon {
-  transform: scaleX(-1);
+i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

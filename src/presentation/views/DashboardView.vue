@@ -55,8 +55,15 @@ const defaultColDef = {
           </p>
         </div>
         <div class="flex gap-3">
-          <v-btn variant="tonal" color="primary" rounded="xl" prepend-icon="mdi-plus">نوبت جدید</v-btn>
-          <v-btn variant="outlined" color="outline" rounded="xl" icon="mdi-refresh"></v-btn>
+          <v-btn variant="tonal" color="primary" rounded="xl">
+            <template v-slot:prepend>
+              <i class="fas fa-plus ml-2"></i>
+            </template>
+            نوبت جدید
+          </v-btn>
+          <v-btn variant="outlined" color="outline" rounded="xl">
+            <i class="fas fa-sync-alt"></i>
+          </v-btn>
         </div>
       </header>
 
@@ -78,7 +85,7 @@ const defaultColDef = {
       <section class="space-y-4">
         <div class="flex justify-between items-center px-1">
           <h3 class="text-xl font-bold text-primary flex items-center gap-2">
-            <v-icon icon="mdi-calendar-clock" size="20"></v-icon>
+            <i class="fas fa-calendar-check text-lg"></i>
             نوبت‌های امروز
           </h3>
           <div class="flex items-center gap-4">
@@ -90,14 +97,18 @@ const defaultColDef = {
               rounded="pill"
               hide-details
               class="w-64"
-              prepend-inner-icon="mdi-magnify"
-            ></v-text-field>
+            >
+              <template v-slot:prepend-inner>
+                <i class="fas fa-search text-gray-400"></i>
+              </template>
+            </v-text-field>
           </div>
         </div>
 
         <v-card rounded="2xl" flat border class="overflow-hidden">
           <ag-grid-vue
             class="ag-theme-alpine w-full h-[400px]"
+            theme="legacy"
             :columnDefs="columnDefs"
             :rowData="rowData"
             :defaultColDef="defaultColDef"
@@ -113,7 +124,7 @@ const defaultColDef = {
         <v-col cols="12" md="8">
           <v-card rounded="2xl" flat border class="pa-8 h-full bg-surface-variant/5">
             <h4 class="text-lg font-bold mb-6 flex items-center gap-2">
-              <v-icon icon="mdi-bullhorn-outline" color="primary"></v-icon>
+              <i class="fas fa-bullhorn text-primary"></i>
               اطلاعیه‌های داخلی
             </h4>
             <div class="space-y-6">
@@ -134,7 +145,10 @@ const defaultColDef = {
         </v-col>
         <v-col cols="12" md="4">
           <v-card rounded="2xl" flat border class="pa-8 h-full bg-primary text-white">
-            <h4 class="text-lg font-bold mb-6">وضعیت کلینیک</h4>
+            <h4 class="text-lg font-bold mb-6 flex items-center gap-2">
+               <i class="fas fa-chart-line"></i>
+               وضعیت کلینیک
+            </h4>
             <div class="space-y-6">
               <div>
                 <div class="flex justify-between text-xs mb-2">
@@ -146,7 +160,9 @@ const defaultColDef = {
               <p class="text-xs opacity-70 leading-relaxed">
                 امروز ترافیک مراجعین در ساعات عصر بالاتر از حد معمول است. لطفاً آمادگی لازم را داشته باشید.
               </p>
-              <v-btn block variant="tonal" color="white" rounded="xl" class="mt-4">مشاهده جزئیات</v-btn>
+              <v-btn block variant="tonal" color="white" rounded="xl" class="mt-4">
+                مشاهده جزئیات
+              </v-btn>
             </div>
           </v-card>
         </v-col>

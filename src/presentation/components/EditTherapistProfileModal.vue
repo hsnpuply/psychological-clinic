@@ -34,17 +34,19 @@ const removeSpecialization = (index: number) => {
 <template>
   <v-dialog :model-value="modelValue" @update:model-value="close" max-width="800px">
     <v-card rounded="3xl" class="overflow-hidden">
-      <div class="bg-secondary/10 pa-8 pb-4">
+      <div class="bg-secondary/10 pa-8 pb-4 rtl">
         <div class="flex justify-between items-start">
           <div>
             <h2 class="text-3xl font-extrabold text-secondary mb-1">ویرایش پروفایل</h2>
             <p class="text-on-surface-variant text-sm">به‌روزرسانی اطلاعات حرفه‌ای و تماس درمانگر</p>
           </div>
-          <v-btn icon="mdi-close" variant="text" @click="close"></v-btn>
+          <v-btn variant="text" @click="close">
+            <i class="fas fa-times"></i>
+          </v-btn>
         </div>
       </div>
 
-      <v-card-text class="pa-10 pt-4 space-y-8">
+      <v-card-text class="pa-10 pt-4 space-y-8 rtl">
         <v-row>
           <v-col cols="12" md="6">
             <div class="space-y-2">
@@ -94,8 +96,11 @@ const removeSpecialization = (index: number) => {
                 flat
                 rounded="xl"
                 hide-details
-                prepend-inner-icon="mdi-email-outline"
-              ></v-text-field>
+              >
+                <template v-slot:prepend-inner>
+                  <i class="fas fa-envelope text-gray-400"></i>
+                </template>
+              </v-text-field>
             </div>
           </v-col>
           <v-col cols="12" md="6">
@@ -107,8 +112,11 @@ const removeSpecialization = (index: number) => {
                 flat
                 rounded="xl"
                 hide-details
-                prepend-inner-icon="mdi-phone-outline"
-              ></v-text-field>
+              >
+                <template v-slot:prepend-inner>
+                  <i class="fas fa-phone text-gray-400"></i>
+                </template>
+              </v-text-field>
             </div>
           </v-col>
         </v-row>
@@ -120,9 +128,11 @@ const removeSpecialization = (index: number) => {
               variant="text"
               color="primary"
               size="small"
-              prepend-icon="mdi-plus"
               @click="addSpecialization"
             >
+              <template v-slot:prepend>
+                <i class="fas fa-plus ml-2"></i>
+              </template>
               افزودن تخصص
             </v-btn>
           </div>
@@ -137,12 +147,13 @@ const removeSpecialization = (index: number) => {
                 class="bg-transparent border-none outline-none text-sm font-medium w-40"
               />
               <v-btn
-                icon="mdi-close"
                 variant="text"
                 size="x-small"
                 color="error"
                 @click="removeSpecialization(index)"
-              ></v-btn>
+              >
+                <i class="fas fa-times"></i>
+              </v-btn>
             </div>
           </div>
         </div>

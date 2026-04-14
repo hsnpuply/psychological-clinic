@@ -14,5 +14,6 @@
   body {
     @apply bg-background text-on-surface;
     font-family: 'Vazirmatn', sans-serif;
+    direction: rtl;
   }
 }

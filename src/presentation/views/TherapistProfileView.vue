@@ -83,7 +83,9 @@ const goBack = () => {
     <div class="space-y-8 rtl">
       <!-- Header with Back Button -->
       <div class="flex items-center gap-4">
-        <v-btn icon="mdi-arrow-right" variant="text" @click="goBack"></v-btn>
+        <v-btn variant="text" @click="goBack">
+          <i class="fas fa-arrow-right"></i>
+        </v-btn>
         <h1 class="text-3xl font-bold text-primary">پروفایل درمانگر</h1>
       </div>
 
@@ -106,10 +108,12 @@ const goBack = () => {
                 size="large"
                 rounded="xl"
                 elevation="4"
-                prepend-icon="mdi-calendar-plus"
                 class="font-bold"
                 @click="showBookingModal = true"
               >
+                <template v-slot:prepend>
+                  <i class="fas fa-calendar-plus ml-2"></i>
+                </template>
                 ثبت نوبت جدید
               </v-btn>
             </div>
@@ -121,10 +125,12 @@ const goBack = () => {
                 color="secondary"
                 size="large"
                 rounded="xl"
-                prepend-icon="mdi-pencil-outline"
                 class="font-bold"
                 @click="showEditModal = true"
               >
+                <template v-slot:prepend>
+                  <i class="fas fa-edit ml-2"></i>
+                </template>
                 ویرایش پروفایل
               </v-btn>
             </div>
@@ -133,21 +139,21 @@ const goBack = () => {
             
             <div class="space-y-4 text-right">
               <div class="flex items-center gap-3">
-                <v-icon icon="mdi-card-account-details-outline" color="primary"></v-icon>
+                <i class="fas fa-id-card text-primary w-5 text-center"></i>
                 <div>
                   <p class="text-xs text-on-surface-variant">شماره نظام پزشکی</p>
                   <p class="font-medium">{{ therapist.id }}</p>
                 </div>
               </div>
               <div class="flex items-center gap-3">
-                <v-icon icon="mdi-email-outline" color="primary"></v-icon>
+                <i class="fas fa-envelope text-primary w-5 text-center"></i>
                 <div>
                   <p class="text-xs text-on-surface-variant">ایمیل</p>
                   <p class="font-medium">{{ therapist.email }}</p>
                 </div>
               </div>
               <div class="flex items-center gap-3">
-                <v-icon icon="mdi-phone-outline" color="primary"></v-icon>
+                <i class="fas fa-phone text-primary w-5 text-center"></i>
                 <div>
                   <p class="text-xs text-on-surface-variant">شماره تماس</p>
                   <p class="font-medium">{{ therapist.phone }}</p>
@@ -163,7 +169,7 @@ const goBack = () => {
             <!-- Bio Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-                <v-icon icon="mdi-account-details"></v-icon>
+                <i class="fas fa-user-tag"></i>
                 بیوگرافی و تخصص
               </h3>
               <p class="text-on-surface-variant leading-relaxed text-lg">
@@ -174,16 +180,18 @@ const goBack = () => {
             <!-- Education Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-                <v-icon icon="mdi-school"></v-icon>
+                <i class="fas fa-graduation-cap"></i>
                 تحصیلات
               </h3>
               <v-list density="compact">
                 <v-list-item
                   v-for="(edu, index) in therapist.education"
                   :key="index"
-                  prepend-icon="mdi-check-decagram"
                   class="px-0"
                 >
+                  <template v-slot:prepend>
+                    <i class="fas fa-check-circle text-primary ml-3 text-xs"></i>
+                  </template>
                   <v-list-item-title class="text-on-surface">{{ edu }}</v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -192,7 +200,7 @@ const goBack = () => {
             <!-- Specializations Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-                <v-icon icon="mdi-star-outline"></v-icon>
+                <i class="fas fa-award"></i>
                 حوزه‌های تخصصی
               </h3>
               <div class="flex flex-wrap gap-3">
@@ -212,7 +220,7 @@ const goBack = () => {
             <!-- Experience Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-                <v-icon icon="mdi-briefcase-outline"></v-icon>
+                <i class="fas fa-briefcase"></i>
                 سوابق حرفه‌ای
               </h3>
               <v-timeline side="end" align="start" density="compact" class="text-right">
@@ -234,7 +242,7 @@ const goBack = () => {
             <!-- Schedule Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-                <v-icon icon="mdi-calendar-clock"></v-icon>
+                <i class="fas fa-calendar-alt"></i>
                 برنامه حضور در کلینیک
               </h3>
               <v-table density="comfortable">
@@ -256,7 +264,7 @@ const goBack = () => {
             <!-- Online Schedule Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-secondary mb-4 flex items-center gap-2">
-                <v-icon icon="mdi-laptop"></v-icon>
+                <i class="fas fa-video"></i>
                 برنامه مشاوره آنلاین
               </h3>
               <v-table density="comfortable">
@@ -278,7 +286,7 @@ const goBack = () => {
             <!-- Reviews Section -->
             <v-card rounded="xl" flat border class="pa-8">
               <h3 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
-                <v-icon icon="mdi-star-face"></v-icon>
+                <i class="fas fa-comments"></i>
                 نظرات و امتیازات مراجعین
               </h3>
 
