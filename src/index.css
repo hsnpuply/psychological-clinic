@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2c6767;
+  --color-secondary: #4a6549;
+  --color-tertiary: #6b5c4c;
+  --color-background: #fbf9f5;
+  --color-surface: #ffffff;
+  --color-on-surface: #1b1c1a;
+  --color-on-surface-variant: #414845;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+}
