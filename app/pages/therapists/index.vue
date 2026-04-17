@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { AgGridVue } from "ag-grid-vue3"
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community'
 import { ref, computed, watch } from "vue"
+import { SpecialtyLabels, DayOfWeekLabels } from '~/utils/enums'
+
+// Register AG Grid Community Modules
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 const { data: therapists, pending, refresh } = await useFetch('/api/therapists')
 
@@ -10,6 +15,12 @@ const columnDefs = ref([
     headerName: 'درمانگر', 
     flex: 2, 
     minWidth: 220,
+    getQuickFilterText: (params: any) => {
+      const specLabel = params.data.specialties?.length 
+        ? SpecialtyLabels[params.data.specialties[0] as keyof typeof SpecialtyLabels] || ''
+        : '';
+      return `${params.value} ${specLabel}`;
+    },
     cellRenderer: (params: any) => {
       const id = params.data.id
       return `
@@ -17,26 +28,54 @@ const columnDefs = ref([
           <img src="https://picsum.photos/seed/${id}/100/100" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
           <div class="leading-tight">
             <div class="font-bold text-gray-800">${params.value}</div>
-            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">${params.data.specialty}</div>
+            <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">${params.data.specialties?.length ? SpecialtyLabels[params.data.specialties[0] as keyof typeof SpecialtyLabels] || 'بدون تخصص' : 'بدون تخصص'}</div>
           </div>
         </div>
       `
     }
   },
-  { field: 'id', headerName: 'شماره نظام', width: 130, cellClass: 'font-mono' },
   { 
-    field: 'days', 
-    headerName: 'روزهای حضور', 
-    flex: 1,
+    field: 'medicalCouncilNumber', 
+    headerName: 'شماره نظام', 
+    width: 130, 
+    cellClass: 'font-mono',
+    getQuickFilterText: (params: any) => params.value
+  },
+  { 
+    field: 'phone', 
+    headerName: 'شماره تماس', 
+    width: 140, 
+    cellClass: 'font-mono text-left dir-ltr',
     cellRenderer: (params: any) => {
       if (!params.value) return '-'
       return `
+        <div class="flex items-center gap-2 group cursor-pointer" onclick="navigator.clipboard.writeText('${params.value}')">
+          <span class="text-[#2c6767] group-hover:underline">${params.value}</span>
+          <i class="fas fa-copy text-gray-300 group-hover:text-[#2c6767] text-xs transition-colors"></i>
+        </div>
+      `
+    }
+  },
+  { 
+    field: 'availableDays', 
+    headerName: 'روزهای حضور', 
+    flex: 1,
+    getQuickFilterText: (params: any) => {
+      if (!params.value) return '';
+      return params.value.map((d: number) => DayOfWeekLabels[d as keyof typeof DayOfWeekLabels]).join(' ');
+    },
+    cellRenderer: (params: any) => {
+      if (!params.value || params.value.length === 0) return '-'
+      return `
         <div class="flex gap-1">
-          ${params.value.map((d: string) => `
-            <span class="w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black ${d === 'چ' ? 'bg-[#2c6767] text-white' : 'bg-gray-100 text-gray-400'}">
-              ${d}
+          ${params.value.map((d: number) => {
+            const label = DayOfWeekLabels[d as keyof typeof DayOfWeekLabels];
+            const shortLabel = label ? label.charAt(0) : '?';
+            return `
+            <span class="w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-black bg-[#2c6767] text-white">
+              ${shortLabel}
             </span>
-          `).join('')}
+          `}).join('')}
         </div>
       `
     }
@@ -65,14 +104,21 @@ const columnDefs = ref([
     }
   },
   {
-    headerName: 'مدیریت',
-    width: 100,
+    headerName: 'دسترسی سریع (منشی)',
+    width: 160,
     pinned: 'left' as const,
     cellRenderer: (params: any) => {
+      const phone = params.data.phone;
       return `
-        <div class="flex items-center gap-2">
-          <button onclick="window.location.href='/therapists/${params.data.id}'" class="p-2 hover:bg-teal-50 rounded-xl text-gray-400 hover:text-[#2c6767] transition-all">
+        <div class="flex items-center gap-1">
+          <button onclick="window.location.href='/therapists/${params.data.id}'" class="p-2 hover:bg-teal-50 rounded-xl text-gray-400 hover:text-[#2c6767] transition-all" title="پروفایل">
             <i class="fas fa-id-badge text-sm"></i>
+          </button>
+          <a href="tel:${phone}" class="p-2 hover:bg-green-50 rounded-xl text-gray-400 hover:text-green-600 transition-all" title="تماس مستقیم">
+            <i class="fas fa-phone text-sm"></i>
+          </a>
+          <button class="p-2 hover:bg-blue-50 rounded-xl text-gray-400 hover:text-blue-600 transition-all" title="پیام">
+            <i class="fas fa-comment-medical text-sm"></i>
           </button>
         </div>
       `
@@ -108,6 +154,8 @@ const onRefresh = async () => {
     color: 'teal'
   })
 }
+
+const showAddModal = ref(false)
 </script>
 
 <template>
@@ -133,6 +181,7 @@ const onRefresh = async () => {
           label="درمانگر جدید"
           size="xl"
           class="rounded-2xl px-10 bg-gray-900 hover:bg-black text-white font-black shadow-xl transition-all"
+          @click="showAddModal = true"
         />
       </div>
     </header>
@@ -149,6 +198,18 @@ const onRefresh = async () => {
           :ui="{ rounded: 'rounded-2xl' }"
         />
         <div class="flex items-center gap-6">
+           <!-- Fast Filter for Secretary -->
+           <UButton
+             icon="i-heroicons-calendar-days"
+             color="teal"
+             variant="soft"
+             label="حاضرین امروز"
+             size="sm"
+             class="rounded-xl font-bold"
+             @click="search = 'امروز'"
+           />
+           <div class="w-px h-10 bg-gray-100"></div>
+
            <div class="text-right">
              <div class="text-[10px] font-black text-gray-400 uppercase tracking-widest">متخصصین فعال</div>
              <div class="text-xl font-black text-[#2c6767]">{{ therapists?.filter((t: any) => t.status === 'فعال').length || 0 }} نفر</div>
@@ -168,18 +229,29 @@ const onRefresh = async () => {
 
       <!-- Grid -->
       <div v-else class="ag-theme-alpine w-full h-[600px]">
-        <AgGridVue
-          style="width: 100%; height: 100%;"
-          :columnDefs="columnDefs"
-          :rowData="therapists"
-          :defaultColDef="defaultColDef"
-          :enableRtl="true"
-          :pagination="true"
-          :paginationPageSize="12"
-          @grid-ready="onGridReady"
-        />
+        <ClientOnly>
+          <AgGridVue
+            style="width: 100%; height: 100%;"
+            :columnDefs="columnDefs"
+            :rowData="therapists"
+            :defaultColDef="defaultColDef"
+            :enableRtl="true"
+            :pagination="true"
+            :paginationPageSize="12"
+            @grid-ready="onGridReady"
+          />
+          <template #fallback>
+            <div class="p-6 space-y-4">
+              <USkeleton v-for="i in 6" :key="i" class="h-16 w-full rounded-2xl" />
+            </div>
+          </template>
+        </ClientOnly>
       </div>
     </UCard>
+
+    <UModal v-model="showAddModal" prevent-close :ui="{ width: 'sm:max-w-2xl' }">
+      <NewTherapistModal @close="showAddModal = false" @refresh="refresh" />
+    </UModal>
   </div>
 </template>
 

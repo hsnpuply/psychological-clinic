@@ -2,6 +2,7 @@
 const { loggedIn, user, clear } = useUserSession()
 const drawer = ref(true);
 const showNewAppointmentModal = ref(false);
+const showQuickBookingModal = ref(false);
 
 const menuItems = [
   {
@@ -53,19 +54,18 @@ const handleLogout = async () => {
     description: 'شما با موفقیت از پنل کاربری خارج شدید',
     color: 'blue'
   })
-  navigateTo("/login");
+  await navigateTo("/login");
 };
 </script>
 
 <template>
   <div class="min-h-screen bg-[#fbf9f5] flex rtl font-vazir">
-    <UNotifications />
-    
     <!-- Sidebar -->
-    <aside
-      v-if="drawer && loggedIn"
-      class="w-72 bg-white border-l border-gray-100 flex flex-col fixed inset-y-0 right-0 z-50 transition-all duration-300 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.03)]"
-    >
+    <ClientOnly>
+      <aside
+        v-if="drawer && loggedIn"
+        class="w-72 bg-white border-l border-gray-100 flex flex-col fixed inset-y-0 right-0 z-50 transition-all duration-300 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.03)]"
+      >
       <!-- Logo Section -->
       <div class="px-8 py-10 flex items-center justify-between">
         <div class="flex flex-col items-end">
@@ -110,12 +110,14 @@ const handleLogout = async () => {
           />
         </div>
       </div>
-    </aside>
+      </aside>
+    </ClientOnly>
 
     <!-- Main Content -->
     <div :class="['flex-1 flex flex-col transition-all duration-300', (drawer && loggedIn) ? 'mr-72' : 'mr-0']">
       <!-- Top Header -->
-      <header v-if="loggedIn" class="h-20 bg-white/60 backdrop-blur-xl border-b border-gray-100 px-8 flex items-center justify-between sticky top-0 z-40">
+      <ClientOnly>
+        <header v-if="loggedIn" class="h-20 bg-white/60 backdrop-blur-xl border-b border-gray-100 px-8 flex items-center justify-between sticky top-0 z-40">
         <div class="flex items-center gap-6">
           <UButton
             icon="i-heroicons-bars-3-bottom-right"
@@ -137,6 +139,7 @@ const handleLogout = async () => {
         <div class="flex items-center gap-4">
           <div class="flex gap-1 bg-gray-50 p-1 rounded-2xl border border-gray-100">
             <UButton icon="i-heroicons-bell" color="gray" variant="ghost" class="rounded-xl" />
+            <UButton icon="i-heroicons-bolt" color="amber" variant="ghost" class="rounded-xl" title="رزرو سریع نوبت" @click="showQuickBookingModal = true" />
             <UButton icon="i-heroicons-chat-bubble-left-right" color="gray" variant="ghost" class="rounded-xl" />
           </div>
           
@@ -149,7 +152,8 @@ const handleLogout = async () => {
             @click="showNewAppointmentModal = true"
           />
         </div>
-      </header>
+        </header>
+      </ClientOnly>
 
       <!-- Content Area -->
       <main :class="loggedIn ? 'p-8 space-y-8' : ''">
@@ -157,19 +161,26 @@ const handleLogout = async () => {
       </main>
 
       <!-- Footer -->
-      <footer v-if="loggedIn" class="p-8 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold text-gray-400">
-        <p>نرم افزار جامع مدیریت کلینیک امید باران &copy; ۲۰۲۴</p>
-        <div class="flex gap-4">
-          <a href="#" class="hover:text-[#2c6767]">پشتیبانی</a>
-          <a href="#" class="hover:text-[#2c6767]">راهنما</a>
-          <span class="text-[#2c6767]/40 underline underline-offset-4">نسخه 1.2.0</span>
-        </div>
-      </footer>
+      <ClientOnly>
+        <footer v-if="loggedIn" class="p-8 border-t border-gray-100 flex justify-between items-center text-[10px] font-bold text-gray-400">
+          <p>نرم افزار جامع مدیریت کلینیک امید باران &copy; ۲۰۲۴</p>
+          <div class="flex gap-4">
+            <a href="#" class="hover:text-[#2c6767]">پشتیبانی</a>
+            <a href="#" class="hover:text-[#2c6767]">راهنما</a>
+            <span class="text-[#2c6767]/40 underline underline-offset-4">نسخه 1.2.0</span>
+          </div>
+        </footer>
+      </ClientOnly>
     </div>
 
     <!-- Modals -->
     <UModal v-model="showNewAppointmentModal" :ui="{ rounded: 'rounded-[2rem]' }">
       <NewAppointmentModal @close="showNewAppointmentModal = false" />
+    </UModal>
+    
+    <!-- Quick Booking Modal -->
+    <UModal v-model="showQuickBookingModal" prevent-close :ui="{ width: 'sm:max-w-3xl', rounded: 'rounded-[2.5rem]' }">
+      <QuickBookingModal @close="showQuickBookingModal = false" />
     </UModal>
   </div>
 </template>
@@ -187,15 +198,5 @@ const handleLogout = async () => {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #d1d5db;
-}
-
-/* Auth check transition */
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 0.3s ease;
-}
-.page-enter-from,
-.page-leave-to {
-  opacity: 0;
 }
 </style>

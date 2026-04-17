@@ -16,37 +16,37 @@
     {
       "id": "۱۴۲۵۵-ن",
       "name": "دکتر سارا احمدی",
-      "specialty": "روانشناس بالینی",
-      "bio": "عضو هیئت علمی دانشگاه",
-      "days": ["ش", "د", "چ"],
-      "status": "فعال",
-      "email": "s.ahmadi@clinic.com",
-      "phone": "۰۲۱-۸۸۷۷۶۶۵۵",
-      "education": [
-        "دکتری روانشناسی بالینی - دانشگاه تهران",
-        "کارشناسی ارشد روانشناسی عمومی - دانشگاه شهید بهشتی"
-      ],
-      "specializations": [
-        "درمان اختلالات اضطرابی و استرس",
-        "مشاوره فردی و توسعه فردی",
-        "درمان افسردگی و تروما",
-        "روان‌درمانی تحلیلی کوتاه مدت"
-      ]
+      "medicalCouncilNumber": "۱۴۲۵۵-ن",
+      "degree": 3,
+      "phone": "۰۹۱۲۳۴۵۶۷۸۹",
+      "specialties": [1, 6, 7],
+      "availableDays": [1, 3, 5],
+      "counselingTypes": [1, 3],
+      "availableTimes": ["15:00-18:00"],
+      "status": "فعال"
     },
     {
       "id": "۰۸۹۹۱-ن",
       "name": "دکتر امیرحسین رضایی",
-      "specialty": "درمانگر تحلیلی",
-      "bio": "متخصص کودک و نوجوان",
-      "days": ["ی", "س"],
+      "medicalCouncilNumber": "۰۸۹۹۱-ن",
+      "degree": 2,
+      "phone": "۰۹۱۹۸۷۶۵۴۳۲",
+      "specialties": [3, 2],
+      "availableDays": [2, 4],
+      "counselingTypes": [1],
+      "availableTimes": ["12:00-15:00", "18:00-22:00"],
       "status": "فعال"
     },
     {
       "id": "۲۲۱۰۰-ن",
       "name": "مریم توکلی",
-      "specialty": "مشاور خانواده",
-      "bio": "کارشناسی ارشد مشاوره",
-      "days": ["ش", "د", "چ"],
+      "medicalCouncilNumber": "۲۲۱۰۰-ن",
+      "degree": 2,
+      "phone": "۰۹۳۵۴۴۳۳۲۲۱",
+      "specialties": [2, 4],
+      "availableDays": [1, 3, 5],
+      "counselingTypes": [1, 2, 3],
+      "availableTimes": ["10:00-14:00"],
       "status": "در مرخصی"
     }
   ],

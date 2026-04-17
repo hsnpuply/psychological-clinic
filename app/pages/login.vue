@@ -58,46 +58,48 @@ const onSubmit = handleSubmit(async (values) => {
         <p class="text-gray-500 font-medium">پنل مدیریت هوشمند سلامت روان</p>
       </div>
 
-      <UCard class="p-4" :ui="{ rounded: 'rounded-3xl', shadow: 'shadow-xl border-0' }">
-        <form @submit.prevent="onSubmit" class="space-y-6">
-          <UFormGroup
-            label="شماره همراه"
-            help="جهت ورود از شماره همراه ثبت شده استفاده کنید"
-            :error="errors.phone"
-          >
-            <UInput
-              v-model="phone"
+      <ClientOnly>
+        <UCard class="p-4" :ui="{ rounded: 'rounded-3xl', shadow: 'shadow-xl border-0' }">
+          <form @submit.prevent="onSubmit" class="space-y-6">
+            <UFormGroup
+              label="شماره همراه"
+              help="جهت ورود از شماره همراه ثبت شده استفاده کنید"
+              :error="errors.phone"
+            >
+              <UInput
+                v-model="phone"
+                size="xl"
+                placeholder="09123456789"
+                icon="i-heroicons-phone"
+                :loading="isSubmitting"
+                class="font-mono rtl-input"
+                @blur="phoneProps.onBlur"
+              />
+            </UFormGroup>
+
+            <UButton
+              type="submit"
+              block
               size="xl"
-              placeholder="09123456789"
-              icon="i-heroicons-phone"
+              class="rounded-xl bg-[#2c6767] hover:bg-[#1e4a4a] transition-all duration-300 font-bold"
               :loading="isSubmitting"
-              class="font-mono rtl-input"
-              @blur="phoneProps.onBlur"
-            />
-          </UFormGroup>
+            >
+              ورود به سیستم
+            </UButton>
 
-          <UButton
-            type="submit"
-            block
-            size="xl"
-            class="rounded-xl bg-[#2c6767] hover:bg-[#1e4a4a] transition-all duration-300 font-bold"
-            :loading="isSubmitting"
-          >
-            ورود به سیستم
-          </UButton>
-
-          <div class="mt-8 pt-6 border-t border-gray-100 grid grid-cols-2 gap-4">
-            <div class="p-3 bg-gray-50 rounded-2xl text-center">
-              <p class="text-[10px] text-gray-400 mb-1">شماره ادمین</p>
-              <p class="text-xs font-bold text-gray-600 font-mono">09104646471</p>
+            <div class="mt-8 pt-6 border-t border-gray-100 grid grid-cols-2 gap-4">
+              <div class="p-3 bg-gray-50 rounded-2xl text-center">
+                <p class="text-[10px] text-gray-400 mb-1">شماره ادمین</p>
+                <p class="text-xs font-bold text-gray-600 font-mono">09104646471</p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-2xl text-center">
+                <p class="text-[10px] text-gray-400 mb-1">شماره منشی</p>
+                <p class="text-xs font-bold text-gray-600 font-mono">09928717698</p>
+              </div>
             </div>
-            <div class="p-3 bg-gray-50 rounded-2xl text-center">
-              <p class="text-[10px] text-gray-400 mb-1">شماره منشی</p>
-              <p class="text-xs font-bold text-gray-600 font-mono">09928717698</p>
-            </div>
-          </div>
-        </form>
-      </UCard>
+          </form>
+        </UCard>
+      </ClientOnly>
 
       <p class="text-center mt-10 text-xs text-gray-400 font-medium">
         طراحی و توسعه توسط کلینیک امید باران &copy; ۲۰۲۴

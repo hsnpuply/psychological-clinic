@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { AgGridVue } from "ag-grid-vue3"
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community'
 import { ref, computed } from "vue"
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 const { data: appointments, pending, refresh } = await useFetch('/api/appointments')
 
@@ -110,17 +113,24 @@ const onRefresh = async () => {
 
       <!-- AG Grid Table -->
       <div v-else class="ag-theme-alpine w-full h-[600px] border-none">
-        <AgGridVue
-          class="max-w-full"
-          style="width: 100%; height: 100%;"
-          :columnDefs="columnDefs"
-          :rowData="appointments"
-          :defaultColDef="defaultColDef"
-          :enableRtl="true"
-          :pagination="true"
-          :paginationPageSize="15"
-          @grid-ready="onGridReady"
-        />
+        <ClientOnly>
+          <AgGridVue
+            class="max-w-full"
+            style="width: 100%; height: 100%;"
+            :columnDefs="columnDefs"
+            :rowData="appointments"
+            :defaultColDef="defaultColDef"
+            :enableRtl="true"
+            :pagination="true"
+            :paginationPageSize="15"
+            @grid-ready="onGridReady"
+          />
+          <template #fallback>
+            <div class="p-4 space-y-4">
+              <USkeleton v-for="i in 10" :key="i" class="h-10 w-full rounded-xl" />
+            </div>
+          </template>
+        </ClientOnly>
       </div>
     </UCard>
   </div>
